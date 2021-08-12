@@ -1,10 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import {
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-  Button,
   makeStyles,
   CssBaseline,
 } from "@material-ui/core";
@@ -15,11 +10,12 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  NavLink,
 } from "react-router-dom";
 import userContext from "../context/userContext";
 import axios from "axios";
 import { objIsEmpty } from "../utilities";
+import Navbar from "./Navbar";
+import RegisterCard from "./RegisterCard"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     justifyContent: "center",
   },
-  loginCard: {
+  card: {
     verticalAlign: "center",
     padding: theme.spacing(25, 50),
     height: 200,
@@ -55,47 +51,23 @@ const App = () => {
     }
   }, []);
 
-  const logout = async () => {
-    const response = await axios.delete("/api/user/logout");
-    if (response.status === 204) {
-      setUser({});
-    }
-  };
-
   const classes = useStyles();
 
   return (
     <userContext.Provider value={[user, setUser]}>
       <div className={classes.root}>
         <Router>
-          <AppBar position="static" className={classes.appBar}>
-            <Toolbar className={classes.toolbar}>
-              <Typography className={classes.title} variant="h5" noWrap>
-                Linkage
-              </Typography>
-              <Button color="inherit">
-                <NavLink to="/">Home</NavLink>
-              </Button>
-              <Button color="inherit">
-                <NavLink to="/about">About</NavLink>
-              </Button>
-              {objIsEmpty(user) ? (
-                <Button color="inherit">
-                  <NavLink to="/login">Login</NavLink>
-                </Button>
-              ) : (
-                <Button color="inherit" onClick={logout}>
-                  <NavLink to="#">Logout</NavLink>
-                </Button>
-              )}
-            </Toolbar>
-          </AppBar>
-
+          <Navbar />
           <CssBaseline />
           <Switch>
             <Route path="/login">
-              <div className={classes.loginCard}>
+              <div className={classes.card}>
                 <LoginCard />
+              </div>
+            </Route>
+            <Route path="/register">
+              <div className={classes.card}>
+                <RegisterCard />
               </div>
             </Route>
             <Route path="/about">About</Route>

@@ -3,7 +3,7 @@ const { connection } = require("./db");
 function getUserByID(userID, callback) {
   connection.query(
     {
-      sql: "SELECT UserID, Username, Password, EmailAddress, FirstName, LastName, RoleID FROM tblUsers WHERE `userID`=?",
+      sql: "SELECT UserID, Username, Password, EmailAddress, FirstName, LastName, RoleID, Active FROM tblUsers WHERE `userID`=?",
       values: [userID],
     },
     (error, results) => {
@@ -16,10 +16,26 @@ function getUserByID(userID, callback) {
   );
 }
 
+function getUserByEmail(email, callback) {
+  connection.query(
+    {
+      sql: "SELECT UserID, Username, Password, EmailAddress, FirstName, LastName, RoleID, Active FROM tblUsers WHERE `username`=?",
+      values: [email]
+    },
+    (error, results) => {
+      if (error) {
+        console.error("Error retrieving user by Email: ", error);
+        return false;
+      }
+      return callback(results[0]);
+    }
+  )
+}
+
 function checkUserAndPassword(username, password, callback) {
   connection.query(
     {
-      sql: "SELECT UserID, Username, EmailAddress, FirstName, LastName, RoleID FROM tblUsers WHERE `Username`=? AND `Password`=?",
+      sql: "SELECT UserID, Username, EmailAddress, FirstName, LastName, RoleID, Active FROM tblUsers WHERE `Username`=? AND `Password`=?",
       values: [username, password],
     },
     (error, results) => {
@@ -34,7 +50,7 @@ function checkUserAndPassword(username, password, callback) {
 function registerUser(firstName, lastName, username, password, userType, callback) {
   connection.query(
     {
-      sql: `INSERT INTO tblUsers (Username, Password, EmailAddress, FirstName, LastName, RoleID) VALUES ('${username}', '${password}', '${username}', '${firstName}', '${lastName}', ${userType})`,
+      sql: `INSERT INTO tblUsers (Username, Password, EmailAddress, FirstName, LastName, RoleID, Active) VALUES ('${username}', '${password}', '${username}', '${firstName}', '${lastName}', ${userType})`,
     },
     (error, results) => {
       if (error) {
@@ -45,4 +61,18 @@ function registerUser(firstName, lastName, username, password, userType, callbac
   )
 }
 
-module.exports = { getUserByID, checkUserAndPassword, registerUser };
+function getAllUsers(callback) {
+  connection.query(
+    {
+      sql: `SELECT UserID, Username, Password, EmailAddress, FirstName, LastName, RoleID, Active FROM tblUsers`,
+    },
+    (error, results) => {
+      if (error) {
+        console.log("Error registering new user", error);
+      }
+      return callback(results);
+    }
+  )
+}
+
+module.exports = { getUserByID, checkUserAndPassword, registerUser, getUserByEmail, getAllUsers };

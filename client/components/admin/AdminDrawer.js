@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
     Drawer,
@@ -14,17 +14,13 @@ import ClassIcon from "@material-ui/icons/Class";
 import HomeWorkIcon from "@material-ui/icons/HomeWork";
 import AssignmentTurnedInIcon from "@material-ui/icons/AssignmentTurnedIn";
 import AssignmentIcon from "@material-ui/icons/Assignment";
-import { Switch, Route, NavLink } from "react-router-dom";
-import RegisterCard from "./RegisterCard";
+import ManageUsers from "./ManageUsers"
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
     root: {
         display: "flex",
-    },
-    appBar: {
-        zIndex: theme.zIndex.drawer + 1,
     },
     drawer: {
         width: drawerWidth,
@@ -44,6 +40,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AdminDrawer = () => {
+    const [option, setOption] = useState([]);
+
     const classes = useStyles();
     return (
         <div className={classes.root}>
@@ -57,39 +55,37 @@ const AdminDrawer = () => {
                 <Toolbar />
                 <div className={classes.drawerContainer}>
                     <List>
-                        <NavLink to="/admin/register">
-                            <ListItem button>
-                                <ListItemIcon>
-                                    <PersonAddIcon />
-                                </ListItemIcon>
-                                <ListItemText primary={"Register a new User"} />
-                            </ListItem>
-                        </NavLink>
-                        <ListItem button>
+                        <ListItem button onClick={() => setOption("manage-users")}>
+                            <ListItemIcon>
+                                <PersonAddIcon />
+                            </ListItemIcon>
+                            <ListItemText primary={"Manage users"} />
+                        </ListItem>
+                        <ListItem button onClick={() => setOption("posts")}>
                             <ListItemIcon>
                                 <ChatIcon />
                             </ListItemIcon>
                             <ListItemText primary={"Posts"} />
                         </ListItem>
-                        <ListItem button>
+                        <ListItem button onClick={() => setOption("classwork")}>
                             <ListItemIcon>
                                 <ClassIcon />
                             </ListItemIcon>
                             <ListItemText primary={"Classwork"} />
                         </ListItem>
                         <ListItem button>
-                            <ListItemIcon>
+                            <ListItemIcon onClick={() => setOption("homework")}>
                                 <HomeWorkIcon />
                             </ListItemIcon>
                             <ListItemText primary={"Homework"} />
                         </ListItem>
-                        <ListItem button>
+                        <ListItem button onClick={() => setOption("projects")}>
                             <ListItemIcon>
                                 <AssignmentTurnedInIcon />
                             </ListItemIcon>
                             <ListItemText primary={"Projects"} />
                         </ListItem>
-                        <ListItem button>
+                        <ListItem button onClick={() => setOption("exams")}>
                             <ListItemIcon>
                                 <AssignmentIcon />
                             </ListItemIcon>
@@ -100,11 +96,7 @@ const AdminDrawer = () => {
             </Drawer>
             <div className={classes.content}>
                 <div className={classes.toolbar} />
-                <Switch>
-                    <Route path="/admin/register">
-                        <RegisterCard />
-                    </Route>
-                </Switch>
+                {option === "manage-users" && <ManageUsers />}
             </div>
         </div>
     );

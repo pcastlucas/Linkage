@@ -13,6 +13,7 @@ import axios from "axios";
 import userContext from "../context/userContext";
 import { Redirect } from "react-router";
 import { objIsEmpty } from "../utilities";
+import { NavLink } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,8 +56,8 @@ const LoginCard = () => {
           password,
         });
         setUser(data);
-        setInvalidMsg(false);
       } catch (error) {
+        console.log(error);
         setInvalidMsg(true);
       }
     } else {
@@ -117,6 +118,9 @@ const LoginCard = () => {
               <Typography>Invalid email or password</Typography>
             </div>
           )}
+          <div className={classes.field}>
+            <NavLink to="/register">Register a new account</NavLink>
+          </div>
         </CardContent>
       </Card>
     </div>

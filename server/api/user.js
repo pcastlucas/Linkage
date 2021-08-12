@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { getUserByID, checkUserAndPassword, registerUser } = require("../database/user");
+const { getUserByID, checkUserAndPassword, registerUser, getUserByEmail, getAllUsers } = require("../database/user");
 
 router.get("/auth", (req, res, next) => {
   res.json(req.user || {});
@@ -30,11 +30,16 @@ router.put("/register", async (req, res, next) => {
     const password = req.body.password;
     const userType = req.body.userType;
 
-    registerUser(firstName, lastName, username, password, userType, (result) => {
-      console.log(result);
+    getUserByEmail(username, (result) => {
+      if (result) {
+        res.status(400).send("That email already exists.");
+        return;
+      } else {
+        registerUser(firstName, lastName, username, password, userType, (result) => {
+          console.log(result);
+        });
+      }
     });
-
-    res.sendStatus(200);
   } catch (error) {
     console.log(error);
   }
@@ -47,6 +52,16 @@ router.delete("/logout", (req, res, next) => {
     res.status(204).end();
   });
 });
+
+router.get("/all", async (req, res, next) => {
+  try {
+    if (req.user.UserID === 1) {
+      getAllUsers((results) => res.json(results));
+    }
+  } catch (error) {
+    next(error);
+  }
+})
 
 router.get("/:userID", async (req, res, next) => {
   try {

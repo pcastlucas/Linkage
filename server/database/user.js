@@ -50,7 +50,7 @@ function checkUserAndPassword(username, password, callback) {
 function registerUser(firstName, lastName, username, password, userType, callback) {
   connection.query(
     {
-      sql: `INSERT INTO tblUsers (Username, Password, EmailAddress, FirstName, LastName, RoleID, Active) VALUES ('${username}', '${password}', '${username}', '${firstName}', '${lastName}', ${userType})`,
+      sql: `INSERT INTO tblUsers (Username, Password, EmailAddress, FirstName, LastName, RoleID, Active) VALUES ('${username}', '${password}', '${username}', '${firstName}', '${lastName}', ${userType}, 0)`,
     },
     (error, results) => {
       if (error) {

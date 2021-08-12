@@ -37,6 +37,7 @@ router.put("/register", async (req, res, next) => {
       } else {
         registerUser(firstName, lastName, username, password, userType, (result) => {
           console.log(result);
+          res.sendStatus(200);
         });
       }
     });

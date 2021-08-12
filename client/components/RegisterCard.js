@@ -33,7 +33,7 @@ const RegisterCard = () => {
         if (password === verifyPassword) {
             if (userType && firstName && lastName && email && password && verifyPassword) {
                 try {
-                    const { user } = await axios.put("/api/user/register", {
+                    await axios.put("/api/user/register", {
                         firstName,
                         lastName,
                         username: email,

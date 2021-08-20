@@ -1,5 +1,14 @@
 const router = require("express").Router();
-const { getUserByID, checkUserAndPassword, registerUser, getUserByEmail, getAllUsers } = require("../database/user");
+const {
+  getUserByID,
+  checkUserAndPassword,
+  registerUser,
+  getUserByEmail,
+  getAllUsers,
+  activateUser,
+  deactivateUser,
+  updateUser,
+} = require("../database/user");
 
 router.get("/auth", (req, res, next) => {
   res.json(req.user || {});
@@ -35,16 +44,49 @@ router.put("/register", async (req, res, next) => {
         res.status(400).send("That email already exists.");
         return;
       } else {
-        registerUser(firstName, lastName, username, password, userType, (result) => {
-          console.log(result);
-          res.sendStatus(200);
-        });
+        registerUser(
+          firstName,
+          lastName,
+          username,
+          password,
+          userType,
+          (result) => {
+            console.log(result);
+            res.sendStatus(200);
+          }
+        );
       }
     });
   } catch (error) {
     console.log(error);
   }
-})
+});
+
+router.post("/activate", async (req, res, next) => {
+  try {
+    const userID = req.body.userID;
+
+    activateUser(userID, (result) => {
+      console.log(result);
+      getUserByID(userID, (result) => res.json(result));
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.post("/deactivate", async (req, res, next) => {
+  try {
+    const userID = req.body.userID;
+
+    deactivateUser(userID, (result) => {
+      console.log(result);
+      getUserByID(userID, (result) => res.json(result));
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 router.delete("/logout", (req, res, next) => {
   req.logout();
@@ -62,7 +104,19 @@ router.get("/all", async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-})
+});
+
+router.put("/update", async (req, res, next) => {
+  try {
+    const user = req.body.user;
+    updateUser(user, (result) => {
+      console.log(result)
+      getUserByID(user.userID, (result) => res.json(result));
+    });
+  } catch (error) {
+    next(error);
+  }
+});
 
 router.get("/:userID", async (req, res, next) => {
   try {

@@ -20,7 +20,7 @@ function getUserByEmail(email, callback) {
   connection.query(
     {
       sql: "SELECT UserID, Username, Password, EmailAddress, FirstName, LastName, RoleID, Active FROM tblUsers WHERE `username`=?",
-      values: [email]
+      values: [email],
     },
     (error, results) => {
       if (error) {
@@ -29,7 +29,7 @@ function getUserByEmail(email, callback) {
       }
       return callback(results[0]);
     }
-  )
+  );
 }
 
 function checkUserAndPassword(username, password, callback) {
@@ -47,7 +47,14 @@ function checkUserAndPassword(username, password, callback) {
   );
 }
 
-function registerUser(firstName, lastName, username, password, userType, callback) {
+function registerUser(
+  firstName,
+  lastName,
+  username,
+  password,
+  userType,
+  callback
+) {
   connection.query(
     {
       sql: `INSERT INTO tblUsers (Username, Password, EmailAddress, FirstName, LastName, RoleID, Active) VALUES ('${username}', '${password}', '${username}', '${firstName}', '${lastName}', ${userType}, 0)`,
@@ -58,7 +65,7 @@ function registerUser(firstName, lastName, username, password, userType, callbac
       }
       return callback(results);
     }
-  )
+  );
 }
 
 function getAllUsers(callback) {
@@ -72,7 +79,58 @@ function getAllUsers(callback) {
       }
       return callback(results);
     }
-  )
+  );
 }
 
-module.exports = { getUserByID, checkUserAndPassword, registerUser, getUserByEmail, getAllUsers };
+function activateUser(userID, callback) {
+  connection.query(
+    {
+      sql: `UPDATE tblUsers SET Active=1 WHERE UserID=${userID}`,
+    },
+    (error, results) => {
+      if (error) {
+        console.log("Error activating user", error);
+      }
+      return callback(results);
+    }
+  );
+}
+
+function deactivateUser(userID, callback) {
+  connection.query(
+    {
+      sql: `UPDATE tblUsers SET Active=0 WHERE UserID=${userID}`,
+    },
+    (error, results) => {
+      if (error) {
+        console.log("Error activating user", error);
+      }
+      return callback(results);
+    }
+  );
+}
+
+function updateUser(user, callback) {
+  connection.query(
+    {
+      sql: `UPDATE tblUsers SET FirstName='${user.firstName}', LastName='${user.lastName}', EmailAddress='${user.emailAddress}', RoleID='${user.roleID}' WHERE UserID='${user.userID}'`,
+    },
+    (error, results) => {
+      if (error) {
+        console.log("Error updating user", error);
+      }
+      return callback(results);
+    }
+  );
+}
+
+module.exports = {
+  getUserByID,
+  checkUserAndPassword,
+  registerUser,
+  getUserByEmail,
+  getAllUsers,
+  activateUser,
+  deactivateUser,
+  updateUser
+};

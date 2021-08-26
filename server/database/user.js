@@ -124,6 +124,31 @@ function updateUser(user, callback) {
   );
 }
 
+function getUsersByRoleID(roleID, callback) {
+  connection.query(
+    {
+      sql: `SELECT 
+              UserID, 
+              Username, 
+              EmailAddress, 
+              FirstName, 
+              LastName, 
+              RoleID, 
+              Active,
+              GradeLevel
+              FROM tblUsers 
+              LEFT JOIN tblStudentGradeLevel ON StudentID=UserID
+              WHERE RoleID=${roleID}`,
+    },
+    (error, results) => {
+      if (error) {
+        console.log("Error retrieving users by RoleID", error);
+      }
+      return callback(results);
+    }
+  );
+}
+
 module.exports = {
   getUserByID,
   checkUserAndPassword,
@@ -132,5 +157,6 @@ module.exports = {
   getAllUsers,
   activateUser,
   deactivateUser,
-  updateUser
+  updateUser,
+  getUsersByRoleID
 };

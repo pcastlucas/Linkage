@@ -16,6 +16,7 @@ import axios from "axios";
 import { objIsEmpty } from "../utilities";
 import Navbar from "./Navbar";
 import RegisterCard from "./RegisterCard"
+import Home from "./Home";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -74,7 +75,7 @@ const App = () => {
             <Route path="/teacher">
               <TeacherHome />
             </Route>
-            <Route path="/">{(!objIsEmpty(user) && user.RoleID === 1) ? <AdminHome /> : <div>Home</div>}</Route>
+            <Route path="/">{(!objIsEmpty(user) && user.RoleID === 1) ? <AdminHome /> : <Home/>}</Route>
           </Switch>
         </Router>
       </div>

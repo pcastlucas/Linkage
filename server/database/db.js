@@ -4,6 +4,7 @@ const connection = mysql.createConnection({
   user: "root",
   password: "",
   database: "capstone",
+  multipleStatements: true
 });
 
 const connect = () => {
@@ -15,4 +16,5 @@ const connect = () => {
     console.log("connected as id " + connection.threadId);
   });
 };
+
 module.exports = { connect, connection };

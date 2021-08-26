@@ -8,6 +8,7 @@ const {
   activateUser,
   deactivateUser,
   updateUser,
+  getUsersByRoleID,
 } = require("../database/user");
 
 router.get("/auth", (req, res, next) => {
@@ -98,7 +99,7 @@ router.delete("/logout", (req, res, next) => {
 
 router.get("/all", async (req, res, next) => {
   try {
-    if (req.user.UserID === 1) {
+    if (req.user.RoleID === 1) {
       getAllUsers((results) => res.json(results));
     }
   } catch (error) {
@@ -110,9 +111,38 @@ router.put("/update", async (req, res, next) => {
   try {
     const user = req.body.user;
     updateUser(user, (result) => {
-      console.log(result)
       getUserByID(user.userID, (result) => res.json(result));
     });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/teachers", async (req, res, next) => {
+  try {
+    if (req.user.RoleID === 1) {
+      getUsersByRoleID(2, (results) => res.json(results));
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/students", async (req, res, next) => {
+  try {
+    if (req.user.RoleID === 1) {
+      getUsersByRoleID(3, (results) => res.json(results));
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/parents", async (req, res, next) => {
+  try {
+    if (req.user.RoleID === 1) {
+      getUsersByRoleID(4, (results) => res.json(results));
+    }
   } catch (error) {
     next(error);
   }

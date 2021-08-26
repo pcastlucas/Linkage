@@ -15,6 +15,7 @@ import HomeWorkIcon from "@material-ui/icons/HomeWork";
 import AssignmentTurnedInIcon from "@material-ui/icons/AssignmentTurnedIn";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 import ManageUsers from "./ManageUsers";
+import ManageClassrooms from "./ManageClassrooms";
 import { MeetingRoom } from "@material-ui/icons";
 
 const drawerWidth = 240;
@@ -104,6 +105,7 @@ const AdminDrawer = () => {
       <div className={classes.content}>
         <div className={classes.toolbar} />
         {option === "manage-users" && <ManageUsers />}
+        {option === "manage-classrooms" && <ManageClassrooms />}
       </div>
     </div>
   );

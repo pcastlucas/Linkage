@@ -15,4 +15,23 @@ const getRoleName = (roleID) => {
   }
 };
 
-export { objIsEmpty, getRoleName };
+const getSubjectName = (subjectID) => {
+  switch (subjectID) {
+    case 1:
+      return "Computer Science";
+    case 2:
+      return "Mathematics";
+    case 3:
+      return "Science";
+    case 4:
+      return "Social Studies";
+    case 5:
+      return "English";
+    case 6:
+      return "Physical Education";
+    case 7:
+      return "Spanish";
+  }
+};
+
+export { objIsEmpty, getRoleName, getSubjectName };

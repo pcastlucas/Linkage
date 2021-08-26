@@ -12,7 +12,6 @@ import {
   Button,
   Snackbar,
 } from "@material-ui/core";
-import { getRoleName } from "../../utilities";
 import { Save, ArrowBack } from "@material-ui/icons";
 import axios from "axios";
 import MuiAlert from "@material-ui/lab/Alert";
@@ -154,7 +153,7 @@ const ManageSingleUser = (props) => {
           </Paper>
         </Grid>
         <Grid item xs={6}>
-
+            
         </Grid>
       </Grid>
     </div>

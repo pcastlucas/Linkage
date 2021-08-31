@@ -3,16 +3,17 @@ import AdminDrawer from "./AdminDrawer";
 import { Redirect } from "react-router";
 import { objIsEmpty } from "../../utilities";
 import userContext from "../../context/userContext";
+import { Box } from "@material-ui/core";
 
 const AdminHome = () => {
-  const [user, setUser] = useContext(userContext);
+  const [user] = useContext(userContext);
 
   return (
-    <div>
+    <Box display="flex">
       {!objIsEmpty(user) && <Redirect to="/home" />}
       <AdminDrawer />
       Admin Home
-    </div>
+    </Box>
   );
 };
 

@@ -1,21 +1,14 @@
 import React, { useState, useEffect } from "react";
-import {
-  makeStyles,
-  CssBaseline,
-} from "@material-ui/core";
+import { makeStyles, CssBaseline } from "@material-ui/core";
 import LoginCard from "./LoginCard";
 import TeacherHome from "./teacher/TeacherHome";
-import AdminHome from "./admin/AdminHome"
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-} from "react-router-dom";
+import AdminHome from "./admin/AdminHome";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import userContext from "../context/userContext";
 import axios from "axios";
 import { objIsEmpty } from "../utilities";
 import Navbar from "./Navbar";
-import RegisterCard from "./RegisterCard"
+import RegisterCard from "./RegisterCard";
 import Home from "./Home";
 
 const useStyles = makeStyles((theme) => ({
@@ -75,7 +68,10 @@ const App = () => {
             <Route path="/teacher">
               <TeacherHome />
             </Route>
-            <Route path="/">{(!objIsEmpty(user) && user.RoleID === 1) ? <AdminHome /> : <Home/>}</Route>
+            <Route path="/">
+              {!objIsEmpty(user) && user.RoleID === 1 && <AdminHome />}
+              {!objIsEmpty(user) && user.RoleID === 2 && <TeacherHome />}
+            </Route>
           </Switch>
         </Router>
       </div>

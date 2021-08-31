@@ -34,4 +34,11 @@ const getSubjectName = (subjectID) => {
   }
 };
 
-export { objIsEmpty, getRoleName, getSubjectName };
+const groupBy = (xs, key) => {
+  return xs.reduce((rv, x) => {
+    (rv[x[key]] = rv[x[key]] || []).push(x);
+    return rv;
+  }, []);
+};
+
+export { objIsEmpty, getRoleName, getSubjectName, groupBy };

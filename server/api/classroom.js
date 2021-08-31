@@ -8,6 +8,7 @@ const {
   getStudentsByClassroomID,
   addClassroom,
   deleteClassroom,
+  getClassroomByTeacherID,
 } = require("../database/classroom");
 
 router.get("/all", async (req, res, next) => {
@@ -79,6 +80,15 @@ router.delete("/:classroomID", (req, res, next) => {
   deleteClassroom(classroomID, (result) => {
     res.sendStatus(200);
   });
+});
+
+router.get("/by-teacher/:teacherID", (req, res, next) => {
+  try {
+    const teacherID = req.params.teacherID;
+    getClassroomByTeacherID(teacherID, (results) => res.json(results));
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.get("/students/:classroomID", (req, res, next) => {

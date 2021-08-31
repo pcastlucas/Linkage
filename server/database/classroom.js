@@ -30,6 +30,34 @@ function getClassroomByID(classroomID, callback) {
   );
 }
 
+function getClassroomByTeacherID(teacherID, callback) {
+  connection.query(
+    {
+      sql: `
+      SELECT 
+        c.ClassroomID, 
+        c.TeacherID, 
+        c.SubjectID,
+        c.RoomNumber,
+        student.UserID as StudentID,
+        student.FirstName as StudentFirstName,
+        student.LastName as StudentLastName
+      FROM tblClassroom c
+      INNER JOIN tblUsers teacher ON c.TeacherID = teacher.UserID
+      LEFT JOIN tblClassroomStudents cs ON c.ClassroomID = cs.ClassroomID
+      LEFT JOIN tblUsers student ON cs.StudentID = student.UserID
+      WHERE c.TeacherID=${teacherID}`,
+    },
+    (error, results) => {
+      if (error) {
+        console.error("Error retrieving classroom by teacherId: ", error);
+        return false;
+      }
+      return callback(results);
+    }
+  );
+}
+
 function getAllClassrooms(callback) {
   connection.query(
     {
@@ -181,5 +209,6 @@ module.exports = {
   addStudentToClassroom,
   getStudentsByClassroomID,
   addClassroom,
-  deleteClassroom
+  deleteClassroom,
+  getClassroomByTeacherID
 };

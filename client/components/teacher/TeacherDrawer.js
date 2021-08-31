@@ -13,6 +13,7 @@ import {
 import ChatIcon from "@material-ui/icons/Chat";
 import ClassIcon from "@material-ui/icons/Class";
 import HomeWorkIcon from "@material-ui/icons/HomeWork";
+import HomeIcon from '@material-ui/icons/Home';
 import AssignmentTurnedInIcon from "@material-ui/icons/AssignmentTurnedIn";
 import AssignmentIcon from "@material-ui/icons/Assignment";
 
@@ -41,7 +42,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TeacherDrawer = () => {
+const TeacherDrawer = (props) => {
+  const { setPage } = props;
+
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -55,7 +58,13 @@ const TeacherDrawer = () => {
         <Toolbar />
         <div className={classes.drawerContainer}>
           <List>
-            <ListItem button>
+            <ListItem button onClick={() => setPage("home")}>
+              <ListItemIcon>
+                <HomeIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Home"} />
+            </ListItem>
+            <ListItem button onClick={() => setPage("posts")}>
               <ListItemIcon>
                 <ChatIcon />
               </ListItemIcon>

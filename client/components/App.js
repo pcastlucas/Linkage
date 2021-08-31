@@ -71,6 +71,7 @@ const App = () => {
             <Route path="/">
               {!objIsEmpty(user) && user.RoleID === 1 && <AdminHome />}
               {!objIsEmpty(user) && user.RoleID === 2 && <TeacherHome />}
+              {objIsEmpty(user) && <Home />}
             </Route>
           </Switch>
         </Router>

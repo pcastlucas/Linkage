@@ -9,6 +9,9 @@ const {
   addClassroom,
   deleteClassroom,
   getClassroomByTeacherID,
+  getAssignmentsByClassroomID,
+  getAssignmentsByStudentID,
+  updateAssignmentGradeByID
 } = require("../database/classroom");
 
 router.get("/all", async (req, res, next) => {
@@ -72,7 +75,7 @@ router.post("/add", (req, res, next) => {
   try {
     const classroom = req.body.classroom;
     addClassroom(classroom, (result) => res.json(result));
-  } catch (error) {}
+  } catch (error) { }
 });
 
 router.delete("/:classroomID", (req, res, next) => {
@@ -106,6 +109,34 @@ router.get("/:classroomID", async (req, res, next) => {
     getClassroomByID(classroomID, (result) => res.json(result));
   } catch (error) {
     next(error);
+  }
+});
+
+router.get("/:classroomID/assignments", (req, res, next) => {
+  if (req.user.RoleID <= 2) {
+    try {
+      const classroomID = req.params.classroomID;
+      getAssignmentsByClassroomID(classroomID, (result) => res.json(result));
+    } catch (error) {
+      next(error);
+    }
+  } else {
+    res.sendStatus(403);
+  }
+});
+
+
+router.put("/assignment", (req, res, next) => {
+  if (req.user.RoleID <= 2) {
+    try {
+      const assignmentID = req.body.assignmentID;
+      const grade = req.body.grade;
+      updateAssignmentGradeByID(assignmentID, grade, (result) => res.json(result));
+    } catch (error) {
+      next(error);
+    }
+  } else {
+    res.sendStatus(403);
   }
 });
 

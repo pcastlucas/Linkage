@@ -201,6 +201,77 @@ function deleteClassroom(classroomID, callback) {
   );
 }
 
+function getAssignmentsByClassroomID(classroomID, callback) {
+  connection.query(
+    {
+      sql: `
+      SELECT 
+        AssignmentID,
+        StudentID,
+        SubjectID,
+        TeacherID,
+        Grade,
+        AssignmentTypeID,
+        ClassroomID,
+        FirstName as StudentFirstName,
+        LastName as StudentLastName
+        FROM tblAssignment
+        INNER JOIN tblUsers ON UserID = StudentID
+        WHERE ClassroomID='${classroomID}'`,
+    },
+    (error, results) => {
+      if (error) {
+        console.error("Error retrieving assignments from classroom: ", error);
+        return false;
+      }
+      return callback(results);
+    }
+  );
+}
+
+function getAssignmentsByStudentID(classroomID, callback) {
+  connection.query(
+    {
+      sql: `
+      SELECT 
+        AssignmentID,
+        StudentID,
+        SubjectID,
+        TeacherID,
+        Grade,
+        AssignmentTypeID,
+        ClassroomID
+        FROM tblAssignment
+        WHERE StudentID='${studentID}'`,
+    },
+    (error, results) => {
+      if (error) {
+        console.error("Error retrieving assignments from student: ", error);
+        return false;
+      }
+      return callback(results);
+    }
+  );
+}
+
+function updateAssignmentGradeByID(assignmentID, grade, callback) {
+  connection.query(
+    {
+      sql: `
+      UPDATE tblAssignment
+        SET Grade = '${grade}'
+        WHERE AssignmentID = ${assignmentID}`,
+    },
+    (error, results) => {
+      if (error) {
+        console.error("Error updating assignment grade: ", error);
+        return false;
+      }
+      return callback(results);
+    }
+  );
+}
+
 module.exports = {
   getClassroomByID,
   getAllClassrooms,
@@ -210,5 +281,8 @@ module.exports = {
   getStudentsByClassroomID,
   addClassroom,
   deleteClassroom,
-  getClassroomByTeacherID
+  getClassroomByTeacherID,
+  getAssignmentsByClassroomID,
+  getAssignmentsByStudentID,
+  updateAssignmentGradeByID
 };

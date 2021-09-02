@@ -39,9 +39,6 @@ const StudentList = (props) => {
     const [filteredAssignments, setFilteredAssignments] = useState([]);
 
     useEffect(() => {
-        setBarTxtLine1(getSubjectName(classroom.SubjectID));
-        setBarTxtLine2(`Room Number: ${classroom.RoomNumber}`)
-
         refreshStudents();
         refreshAssignments();
     }, [classroom]);

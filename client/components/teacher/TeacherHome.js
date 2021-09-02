@@ -3,10 +3,12 @@ import { Redirect } from "react-router";
 import TeacherDrawer from "./TeacherDrawer";
 import { objIsEmpty, groupBy, getSubjectName } from "../../utilities";
 import userContext from "../../context/userContext";
-import { Box, Card, CardContent, CardActions, makeStyles, Container, Typography, Button } from "@material-ui/core";
+import { Box, Card, CardContent, makeStyles, Container, Typography } from "@material-ui/core";
 import axios from "axios";
 import TeacherClassroomList from "./TeacherClassroomList";
 import StudentList from "./StudentList";
+import PostList from "../PostList";
+import CreatePost from "./CreatePost";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -49,6 +51,22 @@ const TeacherHome = () => {
     setClassrooms(groupBy(data, "ClassroomID"));
   }, []);
 
+  useEffect(() => {
+    if (page === "home") {
+      setBarTxtLine1(`Hello, ${user.FirstName} ${user.LastName}`);
+      setBarTxtLine2("");
+    } else if (page === "students") {
+      setBarTxtLine1(getSubjectName(selectedClassroom.SubjectID));
+      setBarTxtLine2(`Room Number: ${selectedClassroom.RoomNumber}`)
+    } else if (page === "posts") {
+      setBarTxtLine1("Posts");
+      setBarTxtLine2(``)
+    } else if (page === "create-post") {
+      setBarTxtLine1("Create a Post");
+      setBarTxtLine2(``)
+    }
+  }, [page])
+
   const classes = useStyles();
   return (
     <Box display="flex">
@@ -66,14 +84,16 @@ const TeacherHome = () => {
         {page === "home" && <TeacherClassroomList
           classrooms={classrooms}
           selectClassroom={selectClassroom}
-          setPage={setPage}
-          setBarTxtLine1={setBarTxtLine1}
-          setBarTxtLine2={setBarTxtLine2} />}
+          setPage={setPage} />}
         {page === "students" && <StudentList
           classroom={selectedClassroom}
-          setBarTxtLine1={setBarTxtLine1}
-          setBarTxtLine2={setBarTxtLine2}
           setPage={setPage} />}
+        {page === "posts" && <PostList
+          classrooms={classrooms}
+          setPage={setPage}
+          user={user} />}
+        {page === "create-post" && <CreatePost
+          classrooms={classrooms} teacherID={user.UserID} />}
       </Container>
     </Box>
   );

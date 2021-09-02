@@ -272,6 +272,34 @@ function updateAssignmentGradeByID(assignmentID, grade, callback) {
   );
 }
 
+function getClassroomsByStudentID(studentID, callback) {
+  connection.query(
+    {
+      sql: `
+      SELECT 
+          c.ClassroomID, 
+          TeacherID, 
+          SubjectID,
+          RoomNumber,
+          u.FirstName as TeacherFirstName,
+          u.LastName as TeacherLastName
+        FROM tblClassroom c
+        INNER JOIN tblClassroomStudents tcs ON tcs.ClassroomID = c.ClassroomID
+        INNER JOIN tblUsers u ON u.UserID = TeacherID
+        WHERE StudentID = '${studentID}'`,
+    },
+    (error, results) => {
+      if (error) {
+        console.error("Error retrieving classrooms by student: ", error);
+        return false;
+      }
+      return callback(results);
+    }
+  );
+}
+
+
+
 module.exports = {
   getClassroomByID,
   getAllClassrooms,
@@ -284,5 +312,6 @@ module.exports = {
   getClassroomByTeacherID,
   getAssignmentsByClassroomID,
   getAssignmentsByStudentID,
-  updateAssignmentGradeByID
+  updateAssignmentGradeByID,
+  getClassroomsByStudentID
 };

@@ -7,8 +7,6 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  Typography,
-  Divider,
 } from "@material-ui/core";
 import ChatIcon from "@material-ui/icons/Chat";
 import ClassIcon from "@material-ui/icons/Class";

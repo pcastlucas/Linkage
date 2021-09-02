@@ -26,33 +26,26 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const TeacherClassroomList = (props) => {
-    const { classrooms, selectClassroom, setPage } = props;
+const StudentClassroomList = (props) => {
+    const { classrooms } = props;
 
     const classes = useStyles();
-
-    const gotoStudentPage = (classroom) => {
-        selectClassroom(classroom);
-        setPage("students");
-    }
-
     return (
         <Container className={classes.cardsContainer}>
             {classrooms.map((classroom) => (
-                <Box key={classroom[0].ClassroomID} p={2} textAlign="center">
+                <Box key={classroom.ClassroomID} p={2} textAlign="center">
                     <Card variant="outlined" className={classes.card}>
                         <CardContent>
-                            <Typography>{getSubjectName(classroom[0].SubjectID)}</Typography>
-                            <Typography>Room Number: {classroom[0].RoomNumber}</Typography>
+                            <Typography>{getSubjectName(classroom.SubjectID)}</Typography>
+                            <Typography>Room Number: {classroom.RoomNumber}</Typography>
                         </CardContent>
                         <CardActions>
-                            <Button variant="contained" size="small" color="primary" onClick={() => gotoStudentPage(classroom[0])}>Students</Button>
+                            <Button variant="contained" size="small" color="primary" onClick={() => {}}>Email Teacher</Button>
                         </CardActions>
                     </Card>
                 </Box>
             ))}
-        </Container>
-    )
+        </Container>);
 }
 
-export default TeacherClassroomList;
+export default StudentClassroomList;

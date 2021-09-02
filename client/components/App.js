@@ -10,6 +10,7 @@ import { objIsEmpty } from "../utilities";
 import Navbar from "./Navbar";
 import RegisterCard from "./RegisterCard";
 import Home from "./Home";
+import StudentHome from "./student/StudentHome";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -65,12 +66,10 @@ const App = () => {
               </div>
             </Route>
             <Route path="/about">About</Route>
-            <Route path="/teacher">
-              <TeacherHome />
-            </Route>
             <Route path="/">
               {!objIsEmpty(user) && user.RoleID === 1 && <AdminHome />}
               {!objIsEmpty(user) && user.RoleID === 2 && <TeacherHome />}
+              {!objIsEmpty(user) && user.RoleID === 3 && <StudentHome />}
               {objIsEmpty(user) && <Home />}
             </Route>
           </Switch>

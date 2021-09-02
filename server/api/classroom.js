@@ -10,7 +10,7 @@ const {
   deleteClassroom,
   getClassroomByTeacherID,
   getAssignmentsByClassroomID,
-  getAssignmentsByStudentID,
+  getClassroomsByStudentID,
   updateAssignmentGradeByID
 } = require("../database/classroom");
 
@@ -89,6 +89,15 @@ router.get("/by-teacher/:teacherID", (req, res, next) => {
   try {
     const teacherID = req.params.teacherID;
     getClassroomByTeacherID(teacherID, (results) => res.json(results));
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/by-student/:studentID", (req, res, next) => {
+  try {
+    const studentID = req.params.studentID;
+    getClassroomsByStudentID(studentID, (results) => res.json(results));
   } catch (error) {
     next(error);
   }

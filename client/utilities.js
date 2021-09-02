@@ -38,7 +38,7 @@ const groupBy = (xs, key) => {
   return xs.reduce((rv, x) => {
     (rv[x[key]] = rv[x[key]] || []).push(x);
     return rv;
-  }, []);
+  }, []).filter(el => el != null);
 };
 
 export { objIsEmpty, getRoleName, getSubjectName, groupBy };

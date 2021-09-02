@@ -35,6 +35,9 @@ const useStyles = makeStyles((theme) => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
+    },
+    link: {
+        color: "white"
     }
 }));
 
@@ -56,19 +59,19 @@ const Navbar = () => {
                 <Typography className={classes.title} variant="h5" noWrap>
                     Linkage
                 </Typography>
-                <Button color="inherit">
-                    <NavLink to="/">Home</NavLink>
+                <Button color="secondary">
+                    <NavLink className={classes.link} to="/">Home</NavLink>
                 </Button>
-                <Button color="inherit">
-                    <NavLink to="/about">About</NavLink>
+                <Button color="secondary">
+                    <NavLink className={classes.link} to="/about">About</NavLink>
                 </Button>
                 {objIsEmpty(user) ? (
-                    <Button color="inherit">
-                        <NavLink to="/login">Login</NavLink>
+                    <Button color="secondary">
+                        <NavLink className={classes.link} to="/login">Login</NavLink>
                     </Button>
                 ) : (
-                    <Button color="inherit" onClick={logout}>
-                        <NavLink to="#">Logout</NavLink>
+                    <Button color="secondary" onClick={logout}>
+                        <NavLink className={classes.link} to="#">Logout</NavLink>
                     </Button>
                 )}
             </Toolbar>
